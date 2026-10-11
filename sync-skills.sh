@@ -35,4 +35,4 @@ for dest in "${DESTS[@]}"; do
 done
 
 skills=$(find "$SRC" -maxdepth 2 -name SKILL.md | wc -l | tr -d ' ')
-echo "synced $skills skills to: ${DESTS[*]/#$HOME/\~}"
+echo "synced $skills skills to: ${DESTS[*]/#$HOME/~}"
