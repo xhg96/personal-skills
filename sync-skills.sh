@@ -15,7 +15,6 @@ DESTS=(
   # project-level example: /path/to/project/.claude/skills
 )
 
-count=0
 for dest in "${DESTS[@]}"; do
   mkdir -p "$dest"
 
@@ -33,8 +32,7 @@ for dest in "${DESTS[@]}"; do
     [[ -f "$d/SKILL.md" ]] || continue
     ln -sfn "${d%/}" "$dest/$n"
   done
-  count=$((count + 1))
 done
 
 skills=$(find "$SRC" -maxdepth 2 -name SKILL.md | wc -l | tr -d ' ')
-echo "synced $skills skills to $count destinations"
+echo "synced $skills skills to: ${DESTS[*]/#$HOME/\~}"
