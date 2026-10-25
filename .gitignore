@@ -1,1 +1,36 @@
+# --- macOS ---
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# --- Node / Vite ---
+node_modules/
+dist/
+
+# --- Env & secrets ---
+.env
+.env.*
+
+# --- Editors ---
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- Logs ---
+*.log
+
+# --- Downloaded market data (large, re-downloadable) ---
+crypto-l2/**/data/

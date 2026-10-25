@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>跨交易所永续价差分析</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px;
+      background: #0d1117; color: #e6edf3;
+      font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    }
+    h1 { font-size: 20px; margin: 0 0 6px; }
+    .sub { color: #8b949e; font-size: 13px; margin-bottom: 16px; }
+    .toolbar {
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+      background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+      padding: 12px 16px; margin-bottom: 8px;
+    }
+    .range-btn, .action-btn {
+      background: #21262d; color: #e6edf3; border: 1px solid #30363d;
+      border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer;
+    }
+    .range-btn:hover, .action-btn:hover { border-color: #58a6ff; }
+    .range-btn.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+    .action-btn.primary { background: #238636; border-color: #238636; color: #fff; }
+    .action-btn:disabled { opacity: 0.5; cursor: wait; }
+    .toolbar label { font-size: 12px; color: #8b949e; }
+    .toolbar input {
+      background: #0d1117; color: #e6edf3; border: 1px solid #30363d;
+      border-radius: 6px; padding: 5px 8px; font-size: 12px;
+    }
+    .divider { width: 1px; height: 22px; background: #30363d; }
+    #status { font-size: 12px; color: #8b949e; margin: 0 0 16px 4px; min-height: 16px; }
+    .cards { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .card {
+      background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+      padding: 12px 18px; min-width: 180px;
+    }
+    .card .label { font-size: 12px; color: #8b949e; }
+    .card .value { font-size: 22px; font-weight: 600; margin-top: 4px; }
+    .card .extra { font-size: 12px; color: #8b949e; margin-top: 4px; }
+    .chart {
+      width: 100%; height: 320px;
+      background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+      margin-bottom: 20px; padding: 8px;
+    }
+    #spreadChart { height: 420px; }
+    .tip { font-size: 12px; color: #8b949e; }
+  </style>
+</head>
+<body>
+  <h1 id="title">跨交易所永续价差分析（1 分钟）</h1>
+  <div class="sub"><span id="subtitle"></span> · 数据更新于 <span id="genTime">—</span></div>
+
+  <div class="toolbar">
+    <button class="range-btn" data-days="1">近 24 小时</button>
+    <button class="range-btn active" data-days="3">近 3 天</button>
+    <button class="range-btn" data-days="7">近 7 天</button>
+    <button class="range-btn" data-days="30">近 30 天</button>
+    <span class="divider"></span>
+    <label>自定义（UTC+8）</label>
+    <input type="datetime-local" id="customStart" />
+    <label>至</label>
+    <input type="datetime-local" id="customEnd" />
+    <button class="action-btn" id="customApply">应用</button>
+    <span class="divider"></span>
+    <button class="action-btn primary" id="refreshBtn">刷新行情</button>
+    <button class="action-btn" id="exportBtn">导出 HTML</button>
+  </div>
+  <div id="status"></div>
+
+  <div class="cards" id="cards"></div>
+  <div id="spreadChart" class="chart"></div>
+  <div id="fundingChart" class="chart"></div>
+  <div id="priceChart" class="chart"></div>
+  <div class="tip">数据由浏览器直连 OKX / Hyperliquid 公开 API 获取。粒度自动匹配：≤4 天用 1 分钟，近 7 天用 5 分钟，近 30 天用 15 分钟（Hyperliquid 1 分钟历史仅保留最近几天，5/15 分钟历史更长）。滚轮或拖动滑块缩放，三图按绝对时间窗口联动。价差 = OKX − Hyperliquid，按收盘价对齐，无成交周期不填充。累计费率为区间历次结算费率简单加总（不含复利），正数表示多头支付空头。加载中可随时切换范围，以最后一次选择为准。</div>
+  <script src="/config.js"></script>
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
