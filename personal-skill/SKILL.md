@@ -12,7 +12,7 @@ The skills repo path is given by the `PERSONAL_SKILLS_DIR` environment variable.
 - Run `./init.sh` inside the repo on a new machine: it detects the repo location from its own path and writes `export PERSONAL_SKILLS_DIR="<repo>"` into the shell rc file (`~/.zshrc`, `~/.bashrc`, or `~/.profile`).
 - Without the variable, `sync-skills.sh` falls back to its own directory as the repo root.
 
-Repo layout: each skill is a directory at the repo root containing a `SKILL.md`; the root also holds `init.sh` and `sync-skills.sh`.
+Repo layout: each skill is a directory at the repo root containing a `SKILL.md`; the root also holds `init.sh` and `sync-skills.sh`. `agents-md/AGENTS.md` holds global agent instructions (not a skill — see below).
 
 ## SKILL.md Requirements
 
@@ -30,6 +30,18 @@ Repo layout: each skill is a directory at the repo root containing a `SKILL.md`;
    - `~/.codex/skills` — Codex compatibility path
    - `~/.agents/skills` — cross-client convention read by Kimi Code, Cursor, VS Code Copilot, OpenCode, Gemini CLI, etc.
 4. Verify with `ls -l ~/.agents/skills/<skill-name>` (should point into the repo), then **start a new session** — most tools scan skills only at startup.
+
+## Global Agent Instructions (agents-md/AGENTS.md)
+
+`agents-md/AGENTS.md` defines the spec-as-source convention (every folder keeps a `spec.md` for human-confirmed requirements and an `unspec.md` for everything the agent decided on its own). `sync-skills.sh` symlinks it as each tool's global instructions:
+
+- `~/.claude/CLAUDE.md` — Claude Code
+- `~/.codex/AGENTS.md` — Codex
+
+Behavior:
+- Editing `agents-md/AGENTS.md` takes effect everywhere (symlink); start a new session to reload.
+- An existing regular file or a symlink pointing outside this repo is never overwritten — sync prints `[!] skipped …`. Merge or move that file aside, then re-run sync.
+- Deleting `agents-md/AGENTS.md` and re-running sync removes the links.
 
 ## Notes
 
