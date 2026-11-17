@@ -33,7 +33,7 @@ Repo layout: each skill is a directory at the repo root containing a `SKILL.md`;
 
 ## Global Agent Instructions (agents-md/AGENTS.md)
 
-`agents-md/AGENTS.md` defines the spec-as-source convention (every folder keeps a `spec.md` for human-confirmed requirements and an `unspec.md` for everything the agent decided on its own). `sync-skills.sh` symlinks it as each tool's global instructions:
+`agents-md/AGENTS.md` defines the Vibe Coding documentation convention: in repos where it is enabled, every folder the agent modifies keeps a `spec.md` (human-confirmed requirements) and an `unspec.md` (everything the agent decided on its own). `sync-skills.sh` symlinks it as each tool's global instructions:
 
 - `~/.claude/CLAUDE.md` — Claude Code
 - `~/.codex/AGENTS.md` — Codex
